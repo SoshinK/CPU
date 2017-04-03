@@ -32,7 +32,6 @@ enum ASMCMDS
     };
 
 
-//put in separate file
 #define CPUERR_NOFILE "Cant read instruction file"
 #define CPUERR_BADREG "Register doesnt exist(Note: you arent allowed to access ip and flag)"
 #define CPUERR_UNKNOWNCMD "Unknown instruction"
