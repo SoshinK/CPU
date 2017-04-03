@@ -1,0 +1,12 @@
+#ifdef ASMREGS
+
+REGISTER(empty_first, 28)
+REGISTER(ax, 29)
+REGISTER(bx, 30)
+REGISTER(cx, 31)
+REGISTER(dx, 32)
+REGISTER(empty_last, 33)
+
+#endif
+
+

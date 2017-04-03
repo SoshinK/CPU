@@ -1,0 +1,43 @@
+#ifdef ASMCMDS
+
+//!COMMAND(cmd_name, q_r_args, q_n_args, q_s_args)
+
+COMMAND(mov, 1, 1, 0)
+COMMAND(movr, 2, 0, 0)
+
+COMMAND(push, 0, 1, 0)
+COMMAND(pushr, 1, 0, 0)
+COMMAND(pop, 1, 0, 0)
+
+COMMAND(adds, 0, 0, 0)
+COMMAND(subs, 0, 0, 0)
+COMMAND(muls, 0, 0, 0)
+COMMAND(divs, 0, 0, 0)
+
+COMMAND(addr, 2, 0, 0)
+COMMAND(subr, 2, 0, 0)
+COMMAND(mulr, 2, 0, 0)
+COMMAND(divr, 2, 0, 0)
+
+COMMAND(addn, 1, 1, 0)
+COMMAND(subn, 1, 1, 0)
+COMMAND(muln, 1, 1, 0)
+COMMAND(divn, 1, 1, 0)
+
+COMMAND(inr, 1, 0, 0)
+COMMAND(outr, 1, 0, 0)
+
+COMMAND(cmpr, 2, 0, 0)
+
+COMMAND(jmp, 0, 0, 1)
+COMMAND(ja, 0, 0, 1)
+COMMAND(jae, 0, 0, 1)
+COMMAND(jb, 0, 0, 1)
+COMMAND(jbe, 0, 0, 1)
+COMMAND(je, 0, 0, 1)
+COMMAND(jne, 0, 0, 1)
+
+COMMAND(hlt, 0, 0, 0)
+
+#endif
+

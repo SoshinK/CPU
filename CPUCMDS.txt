@@ -1,0 +1,253 @@
+#ifdef CPUCMDS
+
+
+#define IPPLUS \
+    ip_++;     \
+    IS_CORRECT;
+
+#define REG(reg) \
+    int reg = getreg(binprogram_[ip_]);
+
+#define NUM(n) \
+    int n = binprogram_[ip_];
+
+#define JMP(cmd) \
+    int cmd = binprogram_[ip_]; \
+    ip_ = cmd - 1;              \
+    IS_CORRECT;                 \
+    ip_--;
+
+CPUCMD(mov,                       
+                                        
+    {                                    
+    ip_++;                               
+    IS_CORRECT;                          
+    int reg = getreg(binprogram_[ip_]);   
+    ip_++;                               
+    IS_CORRECT;                          
+    int n = binprogram_[ip_];            
+    register_[reg] = n;                  
+    });
+    
+CPUCMD(movr,
+    {
+    ip_++;
+    IS_CORRECT;
+    int reg1 = getreg(binprogram_[ip_]);
+    ip_++;
+    IS_CORRECT;
+    int reg2 = getreg(binprogram_[ip_]);
+    register_[reg1] = register_[reg2];
+    });
+ 
+CPUCMD(push, 
+    {
+    ip_++;
+    IS_CORRECT;
+    int n = binprogram_[ip_];
+    stack_.push(n);
+    });  
+CPUCMD(pushr, 
+    {
+    ip_++;
+    IS_CORRECT;
+    int reg = getreg(binprogram_[ip_]);
+    stack_.push(register_[reg]);
+    });  
+CPUCMD(pop,
+    {
+    IPPLUS;
+    REG(reg);
+    register_[reg] = stack_.pop();
+    });
+    
+CPUCMD(adds,
+    {
+    stack_.push(stack_.pop() + stack_.pop());
+    });  
+
+CPUCMD(subs,
+    {
+    stack_.push(stack_.pop() - stack_.pop());
+    });
+  
+CPUCMD(muls,
+    {
+    stack_.push(stack_.pop() * stack_.pop());
+    });  
+
+CPUCMD(divs,
+    {
+    stack_.push(stack_.pop() / stack_.pop());
+    });  
+
+CPUCMD(addr,
+    {
+    IPPLUS;
+    REG(reg1);
+    IPPLUS;
+    REG(reg2);
+    register_[reg1] += register_[reg2];
+    });   
+CPUCMD(subr,
+    {
+    IPPLUS;
+    REG(reg1);
+    IPPLUS;
+    REG(reg2);
+    register_[reg1] -= register_[reg2];
+    });  
+CPUCMD(mulr, 
+    {
+    IPPLUS;
+    REG(reg1);
+    IPPLUS;
+    REG(reg2);
+    register_[reg1] *= register_[reg2];
+    });  
+
+CPUCMD(divr, 
+    {
+    IPPLUS;
+    REG(reg1);
+    IPPLUS;
+    REG(reg2);
+    register_[reg1] /= register_[reg2];
+    });  
+  
+CPUCMD(addn,
+    {
+    IPPLUS;
+    REG(reg);
+    IPPLUS;
+    NUM(n);
+    register_[reg] += n;
+    });
+
+CPUCMD(subn,
+    {
+    IPPLUS;
+    REG(reg);
+    IPPLUS;
+    NUM(n);
+    register_[reg] -= n;
+    });
+ 
+CPUCMD(muln,
+    {
+    IPPLUS;
+    REG(reg);
+    IPPLUS;
+    NUM(n);
+    register_[reg] *= n;
+    });
+  
+CPUCMD(divn,
+    {
+    IPPLUS;
+    REG(reg);
+    IPPLUS;
+    NUM(n);
+    register_[reg] /= n;
+    });
+ 
+
+CPUCMD(inr,
+    {
+    IPPLUS;
+    REG(reg);
+    scanf("%d", register_ + reg);
+    });
+
+CPUCMD(outr,
+    {
+    IPPLUS;
+    REG(reg);
+    printf("CPU:%d\n", register_[reg]);
+    });
+      
+CPUCMD(cmpr,
+    {
+    IPPLUS;
+    REG(reg1);
+    IPPLUS;
+    REG(reg2);
+    if(register_[reg1] > register_[reg2]) flag_ = 1;
+    if(register_[reg1] == register_[reg2]) flag_ = 0;
+    if(register_[reg1] < register_[reg2]) flag_ = -1;
+    });  
+    
+CPUCMD(jmp,
+    {
+    IPPLUS;
+    JMP(cmd);
+    });
+
+CPUCMD(ja,
+    {
+    if(flag_ > 0)
+        {
+        IPPLUS;
+        JMP(cmd);
+        }
+    else IPPLUS;  //pass through command number
+    });  
+
+CPUCMD(jae,
+    {
+    if(flag_ >= 0)
+        {
+        IPPLUS;
+        JMP(cmd);
+        }
+    else IPPLUS;
+    }); 
+CPUCMD(jb,
+    {
+    if(flag_ < 0)
+        {
+        IPPLUS;
+        JMP(cmd);
+        }
+    else IPPLUS;
+    } );
+
+CPUCMD(jbe,
+    {
+    if(flag_ <= 0)
+        {
+        IPPLUS;
+        JMP(cmd);
+        }
+    else IPPLUS;
+    } );
+
+CPUCMD(je,
+    {
+    if(flag_ == 0)
+        {
+        IPPLUS;
+        JMP(cmd);
+        }
+    else IPPLUS;
+    } );
+
+CPUCMD(jne,
+    {
+    if(flag_ != 0)
+        {
+        IPPLUS;
+        JMP(cmd);
+        }
+    else IPPLUS;
+    } );
+
+CPUCMD(hlt,
+    {
+    Break = 1;
+    });
+ 
+#undef IPPLUS
+#undef REG
+#undef NUM
+#endif
